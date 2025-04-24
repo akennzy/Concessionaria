@@ -5,7 +5,11 @@ from datetime import datetime
 import locale
 
 # Configuração de localização para moeda brasileira
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+import locale
+try:
+    locale.setlocale(locale.LC_ALL, '')
+except locale.Error:
+    pass
 
 app = Flask(__name__)
 app.secret_key = "chave_secreta_concessionaria"
