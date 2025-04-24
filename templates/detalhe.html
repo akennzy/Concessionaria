@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %} - {{ veiculo.modelo }}{% endblock %}
+
+{% block content %}
+    <section class="detalhe-veiculo">
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Veículos</a> &gt; {{ veiculo.modelo }}
+        </div>
+        
+        <div class="status-badge {{ veiculo.status }}">{{ veiculo.status }}</div>
+        
+        <div class="detalhe-grid">
+            <div class="detalhe-foto">
+                <img src="{{ url_for('static', filename='img/' + veiculo.imagem) }}" alt="{{ veiculo.modelo }}" onerror="this.src='{{ url_for('static', filename='img/placeholder.jpg') }}'">
+            </div>
+            
+            <div class="detalhe-info">
+                <h2>{{ veiculo.marca }} {{ veiculo.modelo }}</h2>
+                <p class="detalhe-tipo">{{ veiculo.tipo|capitalize }} | {{ veiculo.ano }}</p>
+                <p class="detalhe-preco">{{ veiculo.preco_formatado }}</p>
+                
+                <div class="detalhe-acoes">
+                    {% if veiculo.status == 'disponível' %}
+                        <a href="{{ url_for('agendar', veiculo_id=veiculo.id) }}" class="btn-primary">Agendar Test Drive</a>
+                    {% else %}
+                        <span class="btn-inactive">Test Drive Indisponível</span>
+                    {% endif %}
+                    <a href="{{ url_for('simular', veiculo_id=veiculo.id) }}" class="btn-secondary">Simular Financiamento</a>
+                </div>
+                
+                <div class="detalhe-descricao">
+                    <h3>Descrição</h3>
+                    <p>{{ veiculo.descricao }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ficha-tecnica">
+            <h3>Ficha Técnica</h3>
+            <div class="ficha-grid">
+                <div class="ficha-item">
+                    <strong>Motor:</strong> {{ veiculo.motor }}
+                </div>
+                <div class="ficha-item">
+                    <strong>Potência:</strong> {{ veiculo.potencia }}
+                </div>
+                <div class="ficha-item">
+                    <strong>Combustível:</strong> {{ veiculo.combustivel }}
+                </div>
+                <div class="ficha-item">
+                    <strong>Câmbio:</strong> {{ veiculo.cambio }}
+                </div>
+                <div class="ficha-item">
+                    <strong>Quilometragem:</strong> {{ veiculo.quilometragem }} km
+                </div>
+                <div class="ficha-item">
+                    <strong>Cor:</strong> {{ veiculo.cor }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

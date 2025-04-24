@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %} - Painel Administrativo{% endblock %}
+
+{% block content %}
+    <section class="admin-painel">
+        <h2>Painel Administrativo</h2>
+        
+        <div class="admin-nav">
+            <a href="{{ url_for('painel') }}" class="admin-nav-item active">Agendamentos</a>
+            <a href="{{ url_for('veiculos_admin') }}" class="admin-nav-item">Veículos</a>
+        </div>
+        
+        <div class="admin-content">
+            <h3>Agendamentos de Test Drive</h3>
+            
+            {% if agendamentos %}
+                <div class="agendamentos-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Telefone</th>
+                                <th>Veículo</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for agendamento in agendamentos %}
+                                <tr>
+                                    <td>{{ agendamento.id }}</td>
+                                    <td>{{ agendamento.nome }}</td>
+                                    <td>{{ agendamento.telefone }}</td>
+                                    <td>{{ agendamento.marca_veiculo }} {{ agendamento.modelo_veiculo }}</td>
+                                    <td>{{ agendamento.data|formatar_data }}</td>
+                                    <td>{{ agendamento.horario }}</td>
+                                    <td>
+                                        <span class="badge {{ agendamento.status }}">{{ agendamento.status }}</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="sem-agendamentos">
+                    <p>Nenhum agendamento registrado.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

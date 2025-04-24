@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} - Editar Veículo{% endblock %}
+
+{% block content %}
+    <section class="admin-editar">
+        <div class="breadcrumb">
+            <a href="{{ url_for('painel') }}">Painel</a> &gt; 
+            <a href="{{ url_for('veiculos_admin') }}">Veículos</a> &gt; 
+            Editar {{ veiculo.modelo }}
+        </div>
+        
+        <h2>Editar Status do Veículo</h2>
+        
+        <div class="editar-grid">
+            <div class="editar-veiculo">
+                <img src="{{ url_for('static', filename='img/' + veiculo.imagem) }}" alt="{{ veiculo.modelo }}" onerror="this.src='{{ url_for('static', filename='img/placeholder.jpg') }}'">
+                <div class="veiculo-resumo">
+                    <h3>{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+                    <p>{{ veiculo.ano }} - {{ veiculo.tipo|capitalize }}</p>
+                    <p>ID: {{ veiculo.id }}</p>
+                </div>
+            </div>
+            
+            <div class="editar-form">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" name="status" required>
+                            <option value="disponível" {% if veiculo.status == 'disponível' %}selected{% endif %}>Disponível</option>
+                            <option value="em manutenção" {% if veiculo.status == 'em manutenção' %}selected{% endif %}>Em Manutenção</option>
+                            <option value="reservado" {% if veiculo.status == 'reservado' %}selected{% endif %}>Reservado</option>
+                            <option value="vendido" {% if veiculo.status == 'vendido' %}selected{% endif %}>Vendido</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Salvar Alterações</button>
+                        <a href="{{ url_for('veiculos_admin') }}" class="btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

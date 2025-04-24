@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %} - Agendar Test Drive{% endblock %}
+
+{% block content %}
+    <section class="agendar">
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Veículos</a> &gt; 
+            <a href="{{ url_for('detalhe', veiculo_id=veiculo.id) }}">{{ veiculo.modelo }}</a> &gt; 
+            Agendar Test Drive
+        </div>
+        
+        <h2>Agendar Test Drive - {{ veiculo.marca }} {{ veiculo.modelo }}</h2>
+        
+        <div class="agendar-grid">
+            <div class="agendar-veiculo">
+                <img src="{{ url_for('static', filename='img/' + veiculo.imagem) }}" alt="{{ veiculo.modelo }}" onerror="this.src='{{ url_for('static', filename='img/placeholder.jpg') }}'">
+                <div class="veiculo-resumo">
+                    <h3>{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+                    <p>{{ veiculo.ano }} - {{ veiculo.tipo|capitalize }}</p>
+                    <p class="preco">{{ veiculo.preco_formatado }}</p>
+                </div>
+            </div>
+            
+            <div class="agendar-form">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="tel" id="telefone" name="telefone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="data">Data:</label>
+                        <input type="date" id="data" name="data" required min="{{ now.strftime('%Y-%m-%d') }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="horario">Horário:</label>
+                        <select id="horario" name="horario" required>
+                            <option value="">Selecione um horário</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Agendar Test Drive</button>
+                        <a href="{{ url_for('detalhe', veiculo_id=veiculo.id) }}" class="btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %} - Gestão de Veículos{% endblock %}
+
+{% block content %}
+    <section class="admin-painel">
+        <h2>Painel Administrativo</h2>
+        
+        <div class="admin-nav">
+            <a href="{{ url_for('painel') }}" class="admin-nav-item">Agendamentos</a>
+            <a href="{{ url_for('veiculos_admin') }}" class="admin-nav-item active">Veículos</a>
+        </div>
+        
+        <div class="admin-content">
+            <h3>Gerenciamento de Veículos</h3>
+            
+            {% if veiculos %}
+                <div class="veiculos-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagem</th>
+                                <th>Modelo</th>
+                                <th>Marca</th>
+                                <th>Ano</th>
+                                <th>Tipo</th>
+                                <th>Preço</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for veiculo in veiculos %}
+                                <tr>
+                                    <td>{{ veiculo.id }}</td>
+                                    <td class="td-imagem">
+                                        <img src="{{ url_for('static', filename='img/' + veiculo.imagem) }}" alt="{{ veiculo.modelo }}" onerror="this.src='{{ url_for('static', filename='img/placeholder.jpg') }}'">
+                                    </td>
+                                    <td>{{ veiculo.modelo }}</td>
+                                    <td>{{ veiculo.marca }}</td>
+                                    <td>{{ veiculo.ano }}</td>
+                                    <td>{{ veiculo.tipo|capitalize }}</td>
+                                    <td>{{ veiculo.preco_formatado }}</td>
+                                    <td>
+                                        <span class="badge {{ veiculo.status }}">{{ veiculo.status }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('editar', veiculo_id=veiculo.id) }}" class="btn-editar">Editar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="sem-veiculos">
+                    <p>Nenhum veículo cadastrado.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

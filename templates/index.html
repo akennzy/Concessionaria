@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} - Veículos Disponíveis{% endblock %}
+
+{% block content %}
+    <section class="showcase">
+        <h2>Encontre o carro dos seus sonhos</h2>
+        <div class="filtro">
+            <a href="{{ url_for('index') }}" class="btn-filtro {% if not filtro %}ativo{% endif %}">Todos</a>
+            <a href="{{ url_for('index', tipo='novo') }}" class="btn-filtro {% if filtro == 'novo' %}ativo{% endif %}">Novos</a>
+            <a href="{{ url_for('index', tipo='usado') }}" class="btn-filtro {% if filtro == 'usado' %}ativo{% endif %}">Usados</a>
+        </div>
+    </section>
+
+    <section class="veiculos-grid">
+        {% if veiculos %}
+            {% for veiculo in veiculos %}
+                <div class="card-veiculo">
+                    <div class="status {{ veiculo.status }}">{{ veiculo.status }}</div>
+                    <div class="img-container">
+                        <img src="{{ url_for('static', filename='img/' + veiculo.imagem) }}" alt="{{ veiculo.modelo }}" onerror="this.src='{{ url_for('static', filename='img/placeholder.jpg') }}'">
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ veiculo.modelo }}</h3>
+                        <p class="marca">{{ veiculo.marca }}</p>
+                        <p><strong>{{ veiculo.ano }} - {{ veiculo.tipo|capitalize }}</strong></p>
+                        <p class="preco">{{ veiculo.preco_formatado }}</p>
+                        <div class="card-actions">
+                            <a href="{{ url_for('detalhe', veiculo_id=veiculo.id) }}" class="btn-primary">Ver Detalhes</a>
+                            {% if veiculo.status == 'disponível' %}
+                                <a href="{{ url_for('agendar', veiculo_id=veiculo.id) }}" class="btn-secondary">Agendar Test Drive</a>
+                            {% else %}
+                                <span class="btn-inactive">Indisponível</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="sem-veiculos">
+                <p>Nenhum veículo encontrado para esta categoria.</p>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}
