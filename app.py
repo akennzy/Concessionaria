@@ -141,7 +141,8 @@ def salvar_agendamento(agendamento):
         json.dump(agendamentos, arquivo, indent=4, ensure_ascii=False)
 
 def formatar_moeda(valor):
-    return locale.currency(valor, grouping=True)
+    return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
 
 # Rotas da aplicação
 @app.route('/')
